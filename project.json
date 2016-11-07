@@ -1,5 +1,5 @@
 ﻿{
-  "descriptione": ""
+  "description": "A wrapper around the ALK API that supports .NET Core",
   "version": "1.0.0-*",
 
   "dependencies": {
@@ -12,7 +12,7 @@
     "netstandard1.3": {
       "imports": "dnxcore50"
     },
-    "net462": {
+    "net46": {
       "frameworkAssemblies": {
         "System.Web": "4.0.0.0"
       }

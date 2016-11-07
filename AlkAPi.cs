@@ -23,13 +23,13 @@ namespace ALK.Core
         public string BaseUri { get; set; }
         public string Version { get; set; }
 
-        public ReverseGeoCodeResponse ReverseGeoCode(double latitude, double longitude, bool matchedNamedRoadsOnly,
-                int maxCleanupMiles, string region, string dataset)
+        public ReverseGeoCodeResponse ReverseGeoCode(double latitude, double longitude, bool matchedNamedRoadsOnly=true,
+                int maxCleanupMiles=20, string region="NA", string dataset="Current")
             =>
             ReverseGeoCodeAsync(latitude, longitude, matchedNamedRoadsOnly, maxCleanupMiles, region, dataset)
                 .GetAwaiter()
                 .GetResult();
-        public Task<ReverseGeoCodeResponse> ReverseGeoCodeAsync(double latitude, double longitude, bool matchedNamedRoadsOnly, int maxCleanupMiles, string region, string dataset)
+        public async Task<ReverseGeoCodeResponse> ReverseGeoCodeAsync(double latitude, double longitude, bool matchedNamedRoadsOnly, int maxCleanupMiles, string region, string dataset)
         {
             var res = new ReverseGeoCodeResponse();
             HttpClient client = new HttpClient();
@@ -45,7 +45,7 @@ namespace ALK.Core
 
             var requestUri = new Uri(_baseUri,"locations");
             var requestUri2 = requestUri.AttachParameters(param);
-            return client.GetStringAsync(requestUri2).ContinueWith(task =>
+            return await client.GetStringAsync(requestUri2).ContinueWith(task =>
             {
                 var test =
                     (ReverseGeoCodeResponse[])
